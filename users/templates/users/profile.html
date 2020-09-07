@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h3 class="white-important">
+        Change Profile Data
+    </h3>
+    <form class="col-6 no-padding" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {{ uform | crispy }}
+            {{ pform | crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" type="submit">Change Data</button>
+        </div>
+    </form>
+</div>
+<script>
+    var f = ['😋', '😛', '😜', '🤪', '😝', '🤑'],
+    d = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    m = 0;
+
+    function loop() {
+        var s = '', x = 0;
+
+        if (!m) {
+            while (d[x] == 4) {
+                x ++;
+            }
+
+            if (x >= d.length) m = 1;
+            else {
+                d[x] ++;
+            }
+        }
+        else {
+            while (d[x] == 0) {
+                x ++;
+            }
+
+            if (x >= d.length) m = 0;
+            else {
+                d[x] ++;
+
+                if (d[x] == 8) d[x] = 0;
+            }
+        }
+
+        d.forEach(function (n) {
+            s += f[n];
+        });
+
+        location.hash = s;
+
+        setTimeout(loop, 100);
+    }
+
+    loop();
+</script>
+{% endblock content %}

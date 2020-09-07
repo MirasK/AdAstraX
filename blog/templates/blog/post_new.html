@@ -1,0 +1,60 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h3 class="white-important">
+        {{  tag_line }}
+    </h3>
+    <form method="POST" class="col-12 col-md-6 no-padding pr-3 pr-md-0">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {{ form | crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" type="submit">Submit Homework</button>
+        </div>
+    </form>
+    <script>
+        var f = ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂'],
+        d = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        m = 0;
+
+        function loop() {
+            var s = '', x = 0;
+
+            if (!m) {
+                while (d[x] == 4) {
+                    x ++;
+                }
+
+                if (x >= d.length) m = 1;
+                else {
+                    d[x] ++;
+                }
+            }
+            else {
+                while (d[x] == 0) {
+                    x ++;
+                }
+
+                if (x >= d.length) m = 0;
+                else {
+                    d[x] ++;
+
+                    if (d[x] == 8) d[x] = 0;
+                }
+            }
+
+            d.forEach(function (n) {
+                s += f[n];
+            });
+
+            location.hash = s;
+
+            setTimeout(loop, 100);
+        }
+
+        loop();
+    </script>
+</div>
+{% endblock content %}
