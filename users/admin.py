@@ -1,6 +1,18 @@
 from django.contrib import admin
-from .models import Profile, Follow
+from blog.models import User
 
-
-admin.site.register(Profile)
-admin.site.register(Follow)
+class UserAdmin(admin.ModelAdmin):
+    model = User
+    fieldsets = ((
+        'UserFields',
+        {
+            'fields':  (
+                'first name',
+                'last name',
+                'username',
+                'user_type',
+                'email',
+            )
+        }
+    ),)
+    exclude = ['email']

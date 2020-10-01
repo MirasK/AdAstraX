@@ -1,7 +1,12 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Preference
+from blog.models import User, Teacher, Student, Admin
 
 
-admin.site.register(Post)
-admin.site.register(Comment)
-admin.site.register(Preference)
+admin.site.register(User)
+admin.site.register(Teacher)
+admin.site.register(Student)
+admin.site.register(Admin)
+
+class UserAdmin(admin.ModelAdmin):
+
+    list_display = ("username", "email")

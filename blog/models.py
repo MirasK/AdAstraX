@@ -1,39 +1,40 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
+from django.conf import settings
 
+class User(AbstractUser):
+    
+    class UserType(models.IntegerChoices):
+        admin = 1
+        teacher = 2
+        student = 3
 
-class Post(models.Model):
-    content = models.TextField(max_length=1000)
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    likes= models.IntegerField(default=0)
-    dislikes= models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.content[:5]
-
-    @property
-    def number_of_comments(self):
-        return Comment.objects.filter(post_connected=self).count()
-
-
-class Comment(models.Model):
-    content = models.TextField(max_length=150)
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_connected = models.ForeignKey(Post, on_delete=models.CASCADE)
-
-
-class Preference(models.Model):
-    user= models.ForeignKey(User, on_delete=models.CASCADE)
-    post= models.ForeignKey(Post, on_delete=models.CASCADE)
-    value= models.IntegerField()
-    date= models.DateTimeField(auto_now= True)
-
-    def __str__(self):
-        return str(self.user) + ':' + str(self.post) +':' + str(self.value)
+    username = models.CharField(blank=True, max_length=100, unique=True)
+    password = models.CharField(max_length=100)
+    user_type = models.PositiveSmallIntegerField(choices = UserType.choices, default = 1)
+    email = models.EmailField(max_length=254)
+    phone_number = models.IntegerField(default = 0)
+    register_date = models.DateTimeField(default=timezone.now, editable = False)
 
     class Meta:
-       unique_together = ("user", "post", "value")
+        ordering = ("username", "email")
+
+
+class Teacher(models.Model):
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    students_number = models.IntegerField(default=0)
+    lessons_held = models.IntegerField(default=0)
+    salary = models.IntegerField(default=0)
+
+
+class Student(models.Model):
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    lessons_passed = models.IntegerField(default=0)
+    lessons_left = models.IntegerField(default=0)
+    homeworks_passed = models.IntegerField(default=0)
+
+
+class Admin(models.Model):
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

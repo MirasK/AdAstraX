@@ -1,6 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from PIL import Image
+
+User = settings.AUTH_USER_MODEL
 
 
 class Profile(models.Model):
@@ -28,8 +30,3 @@ class Profile(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
-
-class Follow(models.Model):
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
-    follow_user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
