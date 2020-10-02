@@ -11,15 +11,14 @@ class User(AbstractUser):
         teacher = 2
         student = 3
 
+    first_name = models.CharField(max_length = 100)
+    last_name = models.CharField(max_length = 100)
     username = models.CharField(blank=True, max_length=100, unique=True)
     password = models.CharField(max_length=100)
     user_type = models.PositiveSmallIntegerField(choices = UserType.choices, default = 1)
     email = models.EmailField(max_length=254)
     phone_number = models.IntegerField(default = 0)
     register_date = models.DateTimeField(default=timezone.now, editable = False)
-
-    class Meta:
-        ordering = ("username", "email")
 
 
 class Teacher(models.Model):
