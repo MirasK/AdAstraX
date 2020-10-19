@@ -1,4 +1,5 @@
 var initialize_calendar;
+var events = JSON.parse(JSON.parse(document.getElementById('events').textContent));
 initialize_calendar = function()
 {
     $('.calendar').each(function()
@@ -12,6 +13,11 @@ initialize_calendar = function()
                 },
                 selectable: true,
                 selectHelper: true,
+                editable: true,
+                eventLimit: true,
+                firstDay: 1,
+                events: events,
+                timeFormat: 'h:mm'
             });
         })
 };
