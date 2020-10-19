@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from blog.models import User
 
 @login_required
 def profile(request):

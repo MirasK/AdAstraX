@@ -1,0 +1,10 @@
+{% extends 'blog/sidebar.html' %}
+{% load static %}
+{% block sidebarOptions %}
+
+<h1>Create lesson in ZOOM</h1>
+<button class='submit' onclick='{{lesson}}'>Create</button>
+<div>
+{{lesson.start_url}}
+</div>
+{% endblock sidebarOptions %}

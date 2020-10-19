@@ -5,7 +5,7 @@ from blog.models import User, Teacher, Student, Admin, Event
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     model = User
-    list_display = ('first_name', 'last_name','username', 'email', 'phone_number')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'phone_number')
     fieldsets = ((
         None,
         {
@@ -15,7 +15,9 @@ class UserAdmin(admin.ModelAdmin):
                 'username',
                 'user_type',
                 'email',
-                'phone_number'
+                'phone_number',
+                'is_staff',
+                'is_superuser'
             )
         }
     ),)
