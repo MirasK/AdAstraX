@@ -26,14 +26,14 @@ class User(AbstractUser):
 
 
 class Teacher(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     students_number = models.IntegerField(default=0)
     lessons_held = models.IntegerField(default=0)
     salary = models.IntegerField(default=0)
 
 
 class Student(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     lessons_passed = models.IntegerField(default=0)
     lessons_left = models.IntegerField(default=0)
     homeworks_passed = models.IntegerField(default=0)
@@ -52,8 +52,8 @@ class TitleType(models.TextChoices):
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.TextField(choices = TitleType.choices)
-    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE, default= 1)
-    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, default= 1)
+    teacher_id = models.ForeignKey(Teacher, to_field='user_id', on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Student, to_field='user_id', on_delete=models.CASCADE)
     start = models.DateTimeField(null=True,blank=True)
     end = models.DateTimeField(null=True,blank=True)
     allDay = models.BooleanField(default=False)
