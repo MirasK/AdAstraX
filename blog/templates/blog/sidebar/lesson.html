@@ -1,10 +1,8 @@
 {% extends 'blog/sidebar.html' %}
 {% load static %}
 {% block sidebarOptions %}
-
-<h1>Create lesson in ZOOM</h1>
-<button class='submit' onclick='{{lesson}}'>Create</button>
-<div>
-{{lesson.start_url}}
-</div>
+<p>Press the button to go to the room for lesson</p>
+<form target="_blank" action="{{lesson.start_url}}">
+    <input type="submit" class="button1" value="Go to ZOOM meeting" />
+</form>
 {% endblock sidebarOptions %}
