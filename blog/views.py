@@ -12,6 +12,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 import requests
 from zoomus import ZoomClient
 import http.client
+from django.db.models import Q
 
 def is_users(post_user, logged_user):
     return post_user == logged_user
@@ -41,7 +42,7 @@ class CalendarView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         user = self.request.user.id
-        all_events = [model_to_dict(event) for event in Event.objects.filter(student_id = user)]
+        all_events = [model_to_dict(event) for event in Event.objects.filter(Q(student_id = user) | Q(teacher_id = user))]
         data['events'] = json.dumps(all_events, cls=DjangoJSONEncoder)
         return data
 
